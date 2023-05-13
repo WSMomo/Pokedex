@@ -1,1 +1,1 @@
-[try it](pokedex-wsmomo.netlify.app)
+[Visita il mio Pokedex](https://pokedex-wsmomo.netlify.app/)
