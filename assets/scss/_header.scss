@@ -1,0 +1,46 @@
+header {
+  margin: 10% 10% 5% 10%;
+  width: 80%;
+  max-width: 400px;
+  h1{
+    font-size: 3rem;
+  }
+  #search-pokemon {
+    margin-top: 5%;
+    display: flex;
+
+    div {
+      width: 90%;
+      background-color: #EBF3F5;
+      border-radius: 10px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      i {
+        color: $title-color;
+      }
+
+      #search-pokemon-input {
+        padding: 0 10px;
+        background-color: #EBF3F5;
+        border: none;
+        outline: none;
+
+        &::placeholder {
+          color: #A5ABB9;
+        }
+      }
+    }
+  }
+
+  #search-button {
+    background-color: #5D5F7C;
+    margin-left: 10px;
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    border: none;
+  }
+}

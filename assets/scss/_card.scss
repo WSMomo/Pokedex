@@ -1,0 +1,22 @@
+.card{
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 5px;
+  background-color: lightblue;
+  width: 160px;
+  height: 250px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  img{
+    margin-top: 25px;
+    margin-bottom: 40px;
+  }
+  
+  .pokemon-name{
+    margin-bottom: 6px;
+  }
+}
