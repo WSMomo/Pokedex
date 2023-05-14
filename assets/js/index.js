@@ -193,8 +193,13 @@ form.addEventListener('submit', async (event) => {
 async function searchPokemon(pokemon) {
   try {
     const pokemonList = await fetchData('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1010');
-    console.log(pokemonList)
-    const filteredList = await pokemonList.results.filter(item => item.name.startsWith(pokemon.toLowerCase()));
+    const filteredList = pokemonList.results.filter(item => {
+      if (!isNaN(pokemon)) {
+        return item.url.includes(`/${parseInt(pokemon)}`);
+      } else {
+        return item.name.startsWith(pokemon.toLowerCase());
+      }
+    });
     if (filteredList.length === 0) {
       throw new Error('Sorry, this Pokemon doesn\'t exist or isn\'t in our database.');
     }
@@ -218,13 +223,21 @@ async function searchPokemon(pokemon) {
 }
 
 
-form.addEventListener('keyup',()=>{
 
-  if(inputString.value.length <3){
+
+let timeoutId;
+
+form.addEventListener('keyup', () => {
+  clearTimeout(timeoutId); // cancella il timeout precedente
+
+  if (inputString.value.length === 0) {
     renderGenerationTitle();
     renderList();
-  } else if (inputString.value.length >= 3) {
-    
-    searchPokemon(inputString.value);
-  } 
-})
+  } else if (inputString.value.length >= 1) {
+    //il timeout serve a evitare la chiamata immediata all'api, ma si attiva solo quando l'utente smette di digitare per almeno mezzo secondo
+    // Imposta un nuovo timeout per la funzione di ricerca
+    timeoutId = setTimeout(() => {
+      searchPokemon(inputString.value);
+    }, 500); // Imposta il ritardo a 500 millisecondi (0,5 secondi)
+  }
+});
