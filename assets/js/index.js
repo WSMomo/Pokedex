@@ -78,7 +78,6 @@ function renderCards(pokemon) {
 // renderizza la lista di ricerca per generazione
 async function renderList() {
   const gen = numberPokemonForGeneration(pageOrGeneration);
-  console.log(gen);
   const listOfPokemon = await fetchData(`https://pokeapi.co/api/v2/pokemon?limit=${gen.limit}&offset=${gen.offset}`);
   await renderPokemonList(listOfPokemon.results);
   const cards = document.querySelectorAll('.card');
@@ -165,7 +164,6 @@ function numberPokemonForGeneration(genNumber) {
 
   for (let i = 0; i < genNumber; i++) {
     offset += pokemonForGeneration[i];
-    console.log(offset);
   }
 
   const limit = pokemonForGeneration[genNumber]
@@ -192,16 +190,24 @@ form.addEventListener('submit', async (event) => {
   await searchPokemon(inputStringValue);
 })
 
-async function searchPokemon(stringOrNumber) {
+async function searchPokemon(pokemon) {
   try {
-    const pokemonSearched = await fetchData(`https://pokeapi.co/api/v2/pokemon/${stringOrNumber.toLowerCase()}`);
-    const pokemonCard = renderCards(pokemonSearched);
-    renderGenerationTitle();
-    container.innerHTML = pokemonCard;
-    console.log(pokemonCard);
-    console.log(pokemonSearched);
+    const pokemonList = await fetchData('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1010');
+    console.log(pokemonList)
+    const filteredList = await pokemonList.results.filter(item => item.name.startsWith(pokemon.toLowerCase()));
+    if (filteredList.length === 0) {
+      throw new Error('Sorry, this Pokemon doesn\'t exist or isn\'t in our database.');
+    }
+
+    const pokemonSearchedPromises = filteredList.map(async item => await fetchData(item.url));
+    const pokemonSearched = await Promise.all(pokemonSearchedPromises);
+
+    const cards = pokemonSearched.map(pokemon => renderCards(pokemon)).join('');
+    regionTitle.innerHTML = `<h2>Results for ${pokemon}</h2>`;
+    container.innerHTML = cards;
+    return filteredList;
   } catch (err) {
-    if (stringOrNumber) {
+    if (pokemon) {
       document.querySelector('#region-title').innerHTML = '<div id=\'error-message\'>Sorry, this Pokemon doesn\'t exist or isn\'t in our database.</div>';
       container.innerHTML = '';
     } else {
@@ -209,12 +215,16 @@ async function searchPokemon(stringOrNumber) {
       renderList();
     }
   }
-} 
+}
 
 
 form.addEventListener('keyup',()=>{
-  if(inputString.value === ''){
+
+  if(inputString.value.length <3){
     renderGenerationTitle();
     renderList();
-  }
+  } else if (inputString.value.length >= 3) {
+    
+    searchPokemon(inputString.value);
+  } 
 })
