@@ -66,6 +66,11 @@ main{
   text-align: center;
 }
 
+
+#error-message{
+  font-size: 30px;
+  color: $error;
+}
 @media screen and (min-width: 768px){
   #container{
     width: 80%;

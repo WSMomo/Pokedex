@@ -27,34 +27,33 @@ async function renderPokemonList(list) {
   });
 
 
-  regionTitle.innerHTML = `<button id="prevButton">&lt;</button><div><h2>${pokemonRegion(pageOrGeneration)}</h2><h3>Gen ${pageOrGeneration}</h3></div><button id="nextButton">&gt;</button>`
-  
+  renderGenerationTitle();
   container.innerHTML = listOfPokemon;
 
   const prevButton = document.querySelector('#prevButton');
   const nextButton = document.querySelector('#nextButton');
 
 
-  if(pageOrGeneration === 1){
+  if (pageOrGeneration === 1) {
     prevButton.style.visibility = 'hidden';
   }
 
-  if(pageOrGeneration === 9){
+  if (pageOrGeneration === 9) {
     nextButton.style.visibility = 'hidden';
   }
 
-  prevButton.addEventListener('click', () =>{
-    if(pageOrGeneration>1){
+  prevButton.addEventListener('click', () => {
+    if (pageOrGeneration > 1) {
       pageOrGeneration--;
       renderList();
-    } 
-    
+    }
+
   })
 
-  nextButton.addEventListener('click', () =>{
-    if(pageOrGeneration<9){
+  nextButton.addEventListener('click', () => {
+    if (pageOrGeneration < 9) {
       pageOrGeneration++;
-        renderList();
+      renderList();
     }
   });
 
@@ -164,13 +163,58 @@ function numberPokemonForGeneration(genNumber) {
   }
   let offset = 0;
 
-  for(let i = 0; i < genNumber; i++){
+  for (let i = 0; i < genNumber; i++) {
     offset += pokemonForGeneration[i];
     console.log(offset);
   }
 
   const limit = pokemonForGeneration[genNumber]
-  return {offset: offset, limit: limit};
+  return { offset: offset, limit: limit };
+}
+
+// render sezione titolo e generazione
+function renderGenerationTitle() {
+  regionTitle.innerHTML = `<button id="prevButton">&lt;</button>
+  <div>
+  <h2>${pokemonRegion(pageOrGeneration)}</h2>
+  <h3>Gen ${pageOrGeneration}</h3>
+  </div>
+  <button id="nextButton">&gt;</button>`
 }
 
 
+// ricerca pokemon per nome o Id
+const form = document.querySelector('#search-pokemon');
+const inputString = document.querySelector('#search-pokemon-input');
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const inputStringValue = inputString.value;
+  await searchPokemon(inputStringValue);
+})
+
+async function searchPokemon(stringOrNumber) {
+  try {
+    const pokemonSearched = await fetchData(`https://pokeapi.co/api/v2/pokemon/${stringOrNumber.toLowerCase()}`);
+    const pokemonCard = renderCards(pokemonSearched);
+    renderGenerationTitle();
+    container.innerHTML = pokemonCard;
+    console.log(pokemonCard);
+    console.log(pokemonSearched);
+  } catch (err) {
+    if (stringOrNumber) {
+      document.querySelector('#region-title').innerHTML = '<div id=\'error-message\'>Sorry, this Pokemon doesn\'t exist or isn\'t in our database.</div>';
+      container.innerHTML = '';
+    } else {
+      renderGenerationTitle();
+      renderList();
+    }
+  }
+} 
+
+
+form.addEventListener('keyup',()=>{
+  if(inputString.value === ''){
+    renderGenerationTitle();
+    renderList();
+  }
+})
