@@ -19,6 +19,7 @@ body{
 main{
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -33,6 +34,36 @@ main{
 .title{
   color: $title-color;
   font-weight: 700;
+}
+
+#region-title{
+  margin-bottom: 2%;
+  color: $title-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  div{
+    min-width: fit-content;
+    width: 250px;
+    h2{
+      font-size: 2.5rem;
+    }
+    h3{
+      font-size: 1.5rem;
+    }
+  }
+  button{
+    background-color: transparent;
+    color: $button-color;
+    border: none;
+    padding: 20px;
+    font-size: 30px;
+    font-weight: 900;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  text-align: center;
 }
 
 @media screen and (min-width: 768px){

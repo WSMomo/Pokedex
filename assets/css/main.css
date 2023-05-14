@@ -1,5 +1,5 @@
 header {
-  margin: 10% 10% 5% 10%;
+  margin: 5% 10% 3% 10%;
   width: 80%;
   max-width: 400px;
 }
@@ -79,6 +79,7 @@ body {
 main {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -93,6 +94,35 @@ main {
 .title {
   color: #2C3055;
   font-weight: 700;
+}
+
+#region-title {
+  margin-bottom: 2%;
+  color: #2C3055;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#region-title div {
+  min-width: fit-content;
+  width: 250px;
+}
+#region-title div h2 {
+  font-size: 2.5rem;
+}
+#region-title div h3 {
+  font-size: 1.5rem;
+}
+#region-title button {
+  background-color: transparent;
+  color: #5D5F7C;
+  border: none;
+  padding: 20px;
+  font-size: 30px;
+  font-weight: 900;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {

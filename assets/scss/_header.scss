@@ -1,5 +1,5 @@
 header {
-  margin: 10% 10% 5% 10%;
+  margin: 5% 10% 3% 10%;
   width: 80%;
   max-width: 400px;
   h1{
@@ -36,7 +36,7 @@ header {
   }
 
   #search-button {
-    background-color: #5D5F7C;
+    background-color: $button-color;
     margin-left: 10px;
     border-radius: 10px;
     height: 40px;
