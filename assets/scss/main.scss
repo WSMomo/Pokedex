@@ -1,6 +1,7 @@
 @import 'globals';
 @import 'header';
 @import 'card';
+@import 'modal';
 
 *{
   box-sizing: border-box;
@@ -65,7 +66,6 @@ main{
 
   text-align: center;
 }
-
 
 #error-message{
   font-size: 30px;

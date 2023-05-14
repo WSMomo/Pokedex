@@ -95,6 +95,7 @@ async function renderList() {
 async function pokemonSelected(pokemonData) {
   console.log(pokemonData)
   const pokemonSelected = await fetchData(`https://pokeapi.co/api/v2/pokemon/${pokemonData.id}`);
+  renderModal(pokemonSelected);
   return pokemonSelected;
 }
 
@@ -241,3 +242,37 @@ form.addEventListener('keyup', () => {
     }, 500); // Imposta il ritardo a 500 millisecondi (0,5 secondi)
   }
 });
+
+
+async function renderModal(pokemon){
+  console.log(pokemon);
+  const pokemonDescription = await fetchData(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
+  console.log(pokemonDescription);
+  const pokemonModal = document.querySelector('#pokemon-detail-modal');
+  console.log(pokemon.types[0].type.name)
+  
+  pokemonModal.style.display = 'flex';
+  let elem = `      <div id="modal-content" >
+  <button id="close-pokemon-detail">&lt;</button>
+  <h3>${pokemon.forms[0].name}</h3>
+  <h4>${pokemon.id}</h4>
+  <picture style='background-color:${selectCardColor(pokemon.types[0].type.name)}'>
+    <img src="${pokemon.sprites.front_default}" alt="">
+  </picture>
+  <div id="type-of-detail">
+    <div>Description</div>
+    <div>Types</div>
+    <div>Stats</div>
+  </div>
+  <div id="detail-content">
+    ${pokemonDescription.flavor_text_entries[17].flavor_text}
+  </div>
+</div>`;
+console.log(elem)
+pokemonModal.innerHTML = elem;
+
+const closeModal = document.querySelector('#close-pokemon-detail');
+closeModal.addEventListener('click', () =>{
+  pokemonModal.style.display = 'none';
+})
+}
