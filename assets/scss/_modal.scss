@@ -58,11 +58,9 @@
     margin-top: 20px;
     min-width: 250px;
     max-width: 300px;
-    div{
-      font-size: 1.2em;
-      font-weight: 700;
-    }
-
+    
+    
+    
   }
   #detail-content{
     margin-top: 15px;
@@ -74,3 +72,13 @@
 
 }
 
+.item-modal{
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.modal-li{
+  list-style: none;
+}

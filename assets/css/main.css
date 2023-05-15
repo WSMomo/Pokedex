@@ -120,14 +120,21 @@ header #search-button {
   min-width: 250px;
   max-width: 300px;
 }
-#pokemon-detail-modal #modal-content #type-of-detail div {
-  font-size: 1.2em;
-  font-weight: 700;
-}
 #pokemon-detail-modal #modal-content #detail-content {
   margin-top: 15px;
   min-width: 250px;
   max-width: 300px;
+}
+
+.item-modal {
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.modal-li {
+  list-style: none;
 }
 
 * {
