@@ -1,5 +1,6 @@
 import { selectCardColor, pokemonRegion, capitalizeFirst } from "./function.js";
 import { pokemonDescriptionAPI } from "./api.js";
+import { cardClick } from "./addEventListener.js";
 
 
 // renderizza il contenuto principale del modale con il dettaglio dei pokemon
@@ -148,7 +149,7 @@ export function renderSearchedPokemonTitle(pokemon){
 
 // renderizza l'insieme di carte che figurano nella ricerca utente
 export function renderCardsSearched(pokemonSearched){
-  const cards = pokemonSearched.map(pokemon => renderCards(pokemon)).join('');
+  const cards = pokemonSearched.map(pokemon => renderCards(pokemon));
   return cards;
 }
 

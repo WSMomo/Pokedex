@@ -1,7 +1,8 @@
-import { fetchData, pokemonSelectedAPI, listOfPokemonAPI, fetchAllPokemonListAPI, fetchSearchedPokemonAPI } from "./api.js";
-import { renderCards, renderGenerationTitle, renderHidePrevNextButton, renderModal, renderCardsSearched, renderSearchedPokemonTitle, renderErroreMessage } from "./render.js";
-import { numberPokemonForGeneration, filterPokemon } from "./function.js";
 import { container, regionTitle, form, inputString } from "./globals.js";
+import { fetchData, pokemonSelectedAPI, listOfPokemonAPI, fetchAllPokemonListAPI, fetchSearchedPokemonAPI } from "./api.js";
+import { numberPokemonForGeneration, filterPokemon } from "./function.js";
+import { renderCards, renderGenerationTitle, renderHidePrevNextButton, renderModal, renderCardsSearched, renderSearchedPokemonTitle, renderErroreMessage } from "./render.js";
+import { cardClick } from "./addEventListener.js";
 
 let pageOrGeneration = 1;
 
@@ -49,17 +50,10 @@ async function renderList() {
   const gen = numberPokemonForGeneration(pageOrGeneration);
   const listOfPokemon = await listOfPokemonAPI(gen);
   await renderPokemonList(listOfPokemon.results);
-  const cards = document.querySelectorAll('.card');
-  //event listener per dattaglio carte
-  cards.forEach((card) => {
-    card.addEventListener('click', async () => {
-      const pokemon = await pokemonSelectedAPI(card);
-      renderModal(pokemon)
-      console.log(pokemon)
-    })
-  })
-
+  cardClick();
 }
+
+
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -69,23 +63,27 @@ form.addEventListener('submit', async (event) => {
 
 async function searchPokemon(pokemon) {
   try {
-    const pokemonList = await fetchAllPokemonListAPI();
-    const filteredList = filterPokemon(pokemon, pokemonList);
-    if (filteredList.length === 0) {
-      throw new Error('Sorry, this Pokemon doesn\'t exist or isn\'t in our database.');
-    }
-    const pokemonSearched = await fetchSearchedPokemonAPI(filteredList);
-    regionTitle.innerHTML = renderSearchedPokemonTitle(pokemon);
-    container.innerHTML = renderCardsSearched(pokemonSearched);
-  } catch (err) {
-    if (pokemon) {
-      document.querySelector('#region-title').innerHTML = renderErroreMessage();
-      container.innerHTML = '';
-    } else {
-      regionTitle.innerHTML = renderGenerationTitle(pageOrGeneration);
-      renderList();
-    }
+  const pokemonList = await fetchAllPokemonListAPI();
+  const filteredList = filterPokemon(pokemon, pokemonList);
+  if (filteredList.length === 0) {
+    throw new Error('Sorry, this Pokemon doesn\'t exist or isn\'t in our database.');
   }
+  const pokemonSearched = await fetchSearchedPokemonAPI(filteredList);
+  regionTitle.innerHTML = renderSearchedPokemonTitle(pokemon);
+  const arrayOfPokemonHtml = await renderCardsSearched(pokemonSearched)
+  container.innerHTML = arrayOfPokemonHtml.join('');
+    cardClick();
+  
+
+} catch (err) {
+  if (pokemon) {
+    document.querySelector('#region-title').innerHTML = renderErroreMessage();
+    container.innerHTML = '';
+  } else {
+    regionTitle.innerHTML = renderGenerationTitle(pageOrGeneration);
+    renderList();
+  }
+}
 }
 
 
@@ -104,6 +102,7 @@ form.addEventListener('keyup', () => {
     // Imposta un nuovo timeout per la funzione di ricerca
     timeoutId = setTimeout(() => {
       searchPokemon(inputString.value);
+      cardClick();
     }, 500); // Imposta il ritardo a 500 millisecondi (0,5 secondi)
   }
 });
