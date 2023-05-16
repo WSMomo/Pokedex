@@ -95,12 +95,12 @@ header #search-button {
 }
 #pokemon-detail-modal #modal-content #close-pokemon-detail {
   position: absolute;
-  top: 50px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   background-color: transparent;
   border: none;
   font-size: 30px;
-  padding: 50px;
+  padding: 0 40px 40px 0;
   cursor: pointer;
 }
 #pokemon-detail-modal #modal-content picture {
@@ -122,7 +122,10 @@ header #search-button {
 }
 #pokemon-detail-modal #modal-content #detail-content {
   margin-top: 15px;
-  min-width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
   max-width: 300px;
 }
 
@@ -131,12 +134,51 @@ header #search-button {
   font-weight: 700;
   cursor: pointer;
   list-style: none;
+  background-color: rgb(223, 223, 223);
+  min-width: fit-content;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .modal-li {
   list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.pokemon-stat {
+  padding-left: 20px;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+.pokemon-type {
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  #pokemon-detail-modal {
+    height: fit-content;
+    width: fit-content;
+    padding: 60px 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+  }
+  #pokemon-detail-modal #modal-content {
+    height: 100%;
+    width: 100%;
+  }
+  #pokemon-detail-modal #modal-content #close-pokemon-detail {
+    top: -45px;
+    left: -15px;
+  }
+}
 * {
   box-sizing: border-box;
   padding: 0;

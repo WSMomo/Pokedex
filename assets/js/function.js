@@ -22,7 +22,7 @@ export function selectCardColor(type) {
   };
 
 
-  let color = colours[type] || '#FFF';
+  let color = colours[type.toLowerCase()] || '#FFF';
 
   return color;
 }
@@ -77,3 +77,7 @@ export function filterPokemon(pokemon, pokemonList) {
   });
 }
 
+// prima lettera maiuscola di una stringa
+export function capitalizeFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

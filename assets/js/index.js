@@ -11,18 +11,13 @@ renderList();
 
 // renderizza la lista di pokemon
 async function renderPokemonList(list) {
-  let listOfPokemon = '';
   const pokemonDataPromises = list.map(pokemonData => fetchData(pokemonData.url));
   const pokemonDataList = await Promise.all(pokemonDataPromises);
   const sortedPokemonDataList = pokemonDataList.sort((a, b) => a.id - b.id);
-
-  sortedPokemonDataList.forEach((pokemon) => {
-    listOfPokemon += renderCards(pokemon);
-  });
-
+  const arrayPokemonCards = sortedPokemonDataList.map(pokemon => renderCards(pokemon));
 
   regionTitle.innerHTML = renderGenerationTitle(pageOrGeneration);
-  container.innerHTML = listOfPokemon;
+  container.innerHTML = arrayPokemonCards.join(' ');
 
   const prevButton = document.querySelector('#prevButton');
   const nextButton = document.querySelector('#nextButton');
@@ -72,9 +67,6 @@ form.addEventListener('submit', async (event) => {
   await searchPokemon(inputStringValue);
 })
 
-
-
-
 async function searchPokemon(pokemon) {
   try {
     const pokemonList = await fetchAllPokemonListAPI();
@@ -84,7 +76,7 @@ async function searchPokemon(pokemon) {
     }
     const pokemonSearched = await fetchSearchedPokemonAPI(filteredList);
     regionTitle.innerHTML = renderSearchedPokemonTitle(pokemon);
-    container.innerHTML = renderCardsSearched(pokemon, pokemonSearched);
+    container.innerHTML = renderCardsSearched(pokemonSearched);
   } catch (err) {
     if (pokemon) {
       document.querySelector('#region-title').innerHTML = renderErroreMessage();

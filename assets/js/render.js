@@ -1,9 +1,12 @@
-import { selectCardColor, pokemonRegion } from "./function.js";
+import { selectCardColor, pokemonRegion, capitalizeFirst } from "./function.js";
 import { pokemonDescriptionAPI } from "./api.js";
 
+
+// renderizza il contenuto principale del modale con il dettaglio dei pokemon
  function renderModalMainContent(pokemon, pokemonDescription) {
-  const pokemonName = pokemon.forms[0].name;
-  const pokemonId = pokemon.id;
+  const pokemonName = capitalizeFirst(pokemon.forms[0].name);
+  console.log(pokemonName);
+  const pokemonId = pokemon.id.toString().padStart(3, '0');
   const pokemonType = pokemon.types[0].type.name;
   const pokemonImgUrl = pokemon.sprites.front_default;
   let elem = `
@@ -26,6 +29,7 @@ import { pokemonDescriptionAPI } from "./api.js";
 return elem;
  }
 
+ // renderizza le stats del modale
  function renderModalStats(pokemon){
   const hp = pokemon.stats[0].base_stat;
   const attack = pokemon.stats[1].base_stat;
@@ -37,30 +41,35 @@ return elem;
 
   const elem = `
   <ul>
-    <li class='modal-li'>HP: ${hp}</li>
-    <li class='modal-li'>Attack: ${attack}</li>
-    <li class='modal-li'>Defense: ${defense}</li>
-    <li class='modal-li'>Special Attack : ${specialAttack}</li>
-    <li class='modal-li'>Special Defense: ${specialDefense}</li>
-    <li class='modal-li'>Speed: ${speed}</li>
-    <li class='modal-li'>Total: ${total}</li>
+    <li class='modal-li'><div>HP:</div><div class='pokemon-stat'>${hp}</div></li>
+    <li class='modal-li'><div>Attack:</div><div class='pokemon-stat'>${attack}</div></li>
+    <li class='modal-li'><div>Defense:</div><div class='pokemon-stat'>${defense}</div></li>
+    <li class='modal-li'><div>Special Attack:</div><div class='pokemon-stat'>${specialAttack}</div></li>
+    <li class='modal-li'><div>Special Defense:</div><div class='pokemon-stat'>${specialDefense}</div></li>
+    <li class='modal-li'><div>Speed:</div><div class='pokemon-stat'>${speed}</div></li>
+    <li class='modal-li'><div>Total:</div><div class='pokemon-stat'>${total}</div></li>
   </ul>
 `;
+
   return elem;
 }
 
+// renderizza la descrizione del pokemon
  async function renderModalDescription(pokemonDescription){
-  const elem = `${pokemonDescription.flavor_text_entries[17].flavor_text}`;
+  console.log(pokemonDescription);
+  const elem = `${pokemonDescription.flavor_text_entries.length > 0 ? pokemonDescription.flavor_text_entries[17].flavor_text : 'No description available'}`;
   return elem;
 }
 
+
+// renderizza i tipi del pokemon
  function renderModalTypes(pokemon){
-  const pokemonType1 = pokemon.types[0].type.name;
-  const pokemonType2 = pokemon.types[1] ? pokemon.types[1].type.name : '';
+  const pokemonType1 = capitalizeFirst(pokemon.types[0].type.name);
+  const pokemonType2 = pokemon.types[1] ? capitalizeFirst(pokemon.types[1].type.name) : '';
   const elem = `
     <ul>
-      <li class='modal-li' style='background-color:${selectCardColor(pokemonType1)}'>${pokemonType1}</li>
-      ${pokemonType2 ? `<li class='modal-li' style='background-color:${selectCardColor(pokemonType2)}'>${pokemonType2}</li>` : ''}
+      <li class='modal-li pokemon-type' style='background-color:${selectCardColor(pokemonType1)}'>${pokemonType1}</li>
+      ${pokemonType2 ? `<li class='modal-li pokemon-type' style='background-color:${selectCardColor(pokemonType2)}'>${pokemonType2}</li>` : ''}
     </ul>
   `;
   return elem;
@@ -70,7 +79,7 @@ return elem;
 export function renderCards(pokemon) {
   const imgUrl = pokemon.sprites.front_default;
   const pokemonID = (pokemon.id).toString().padStart(3, '0'); //numero del pokemon con sempre minimo tre cifre
-  const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
+  const pokemonName = capitalizeFirst(pokemon.name);
   const pokemonType = pokemon.types[0].type.name;
   const cardColor = selectCardColor(pokemonType);
   const card = `      <div class="card"  id=${pokemon.id} style='background-color: ${cardColor}'>
@@ -92,6 +101,7 @@ export function renderGenerationTitle(pageOrGeneration) {
   return elem;
 }
 
+// renderizza o nasconde i button di avanzamento tra una pagina e l'altra
 export function renderHidePrevNextButton(pageOrGeneration, prevButton, nextButton) {
   if (pageOrGeneration === 1) {
     prevButton.style.visibility = 'hidden';
@@ -102,6 +112,7 @@ export function renderHidePrevNextButton(pageOrGeneration, prevButton, nextButto
   }
 }
 
+// renderizza il modale e il suo stile, aggiunge addEventListener all'interno del modale per cambiare sezione da guardare o per la chiusura
 export async function renderModal(pokemon) {
   const pokemonDescription = await renderModalDescription(await pokemonDescriptionAPI(pokemon));
   const pokemonModal = document.querySelector('#pokemon-detail-modal');
@@ -130,15 +141,18 @@ export async function renderModal(pokemon) {
   });
 }
 
+// renderizza l'input utente del pokemon cercato
 export function renderSearchedPokemonTitle(pokemon){
   return `<h2>Results for ${pokemon}</h2>`;
 }
 
-export function renderCardsSearched(pokemon, pokemonSearched){
+// renderizza l'insieme di carte che figurano nella ricerca utente
+export function renderCardsSearched(pokemonSearched){
   const cards = pokemonSearched.map(pokemon => renderCards(pokemon)).join('');
   return cards;
 }
 
+// renderizza il messaggio di errore in caso non si trovi il pokemon
 export function renderErroreMessage(){
   return '<div id=\'error-message\'>Sorry, this Pokemon doesn\'t exist or isn\'t in our database.</div>';
 }
