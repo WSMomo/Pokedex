@@ -5,28 +5,32 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  top: 0;
-  left: 0;
   border: none;
-  
-  
+  height: fit-content;
+  width: fit-content;
+  padding: 40px 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  max-width: 300px;
+
+
   #modal-content{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
     position: relative;
-    
+
     h3{
       margin-top: 0;
       font-size: 2.5rem;
     }
-    
+
     h4{
       font-size: 1.2rem;
       font-weight: 300;
@@ -34,24 +38,23 @@
     }
     #close-pokemon-detail{
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: -30px;
+      left: -5px;
       background-color: transparent;
       border: none;
       font-size: 30px;
-      padding: 0 40px 40px 0;
+      padding: 0 30px 30px 0;
       cursor: pointer;
     }
-    
+
     picture{
-      padding: 40px 30px;
       border-radius: 20px;
+      width: 250px;
       img{
-        min-width: 250px;
-        max-width: 300px;
+        width: 250px;
       }
     }
-    
+
     #type-of-detail{
       display: flex;
       justify-content: space-between;
@@ -60,9 +63,9 @@
       margin-top: 20px;
       min-width: 250px;
       max-width: 300px;
-      
-      
-      
+
+
+
     }
     #detail-content{
       margin-top: 15px;
@@ -72,12 +75,12 @@
       text-align: left;
       max-width: 300px;
     }
-    
-    
-    
+
+
+
   }
-  
-  
+
+
 }
 
 .item-modal{
@@ -119,16 +122,30 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 20px;    
-    
+    border-radius: 20px;
+   max-width: 400px;
     #modal-content{
       height: 100%;
-      width: 100%;
-      
-      #close-pokemon-detail{
+      width: 100%;      #close-pokemon-detail{
         top: -45px;
         left: -15px;
+        #close-pokemon-detail{
+          top: -45px;
+          left: -15px;
+          font-size: 30px;
+          padding: 0 40px 40px 0;
+          cursor: pointer;
+        }
+        picture{
+          padding: 40px 30px;
+          img{
+            min-width: 250px;
+            max-width: 300px;
+          }
+        }
       }
     }
   }
+
+
 }
