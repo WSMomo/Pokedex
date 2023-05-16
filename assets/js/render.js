@@ -33,6 +33,8 @@ return elem;
   const specialAttack = pokemon.stats[3].base_stat;
   const specialDefense = pokemon.stats[4].base_stat;
   const speed = pokemon.stats[5].base_stat;
+  const total = hp + attack + defense + specialAttack + specialDefense + speed;
+
   const elem = `
   <ul>
     <li class='modal-li'>HP: ${hp}</li>
@@ -41,6 +43,7 @@ return elem;
     <li class='modal-li'>Special Attack : ${specialAttack}</li>
     <li class='modal-li'>Special Defense: ${specialDefense}</li>
     <li class='modal-li'>Speed: ${speed}</li>
+    <li class='modal-li'>Total: ${total}</li>
   </ul>
 `;
   return elem;
@@ -56,8 +59,8 @@ return elem;
   const pokemonType2 = pokemon.types[1] ? pokemon.types[1].type.name : '';
   const elem = `
     <ul>
-      <li class='modal-li'>${pokemonType1}</li>
-      ${pokemonType2 ? `<li class='modal-li'>${pokemonType2}</li>` : ''}
+      <li class='modal-li' style='background-color:${selectCardColor(pokemonType1)}'>${pokemonType1}</li>
+      ${pokemonType2 ? `<li class='modal-li' style='background-color:${selectCardColor(pokemonType2)}'>${pokemonType2}</li>` : ''}
     </ul>
   `;
   return elem;
