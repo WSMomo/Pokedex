@@ -1,3 +1,5 @@
+import { pokemonSelectedAPI } from "./api.js";
+
 //background card color
 export function selectCardColor(type) {
   const colours = {
@@ -70,7 +72,8 @@ export function numberPokemonForGeneration(genNumber) {
 export function filterPokemon(pokemon, pokemonList) {
   return pokemonList.filter((item) => {
     if (!isNaN(pokemon)) {
-      return item.url.includes(`${pokemon}`);
+      let newItem = pokemon.toString().replaceAll('0', '');
+      return item.url.includes(newItem);
     } else {
       return item.name.startsWith(pokemon.toLowerCase());
     }
