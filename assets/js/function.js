@@ -82,3 +82,7 @@ export function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// le stringhe di pokeApi spesso contengono \f che crea problemi di visualizzazione, quindi questa funzione lo rimpiazza con \n
+export function changeNewLineText(string) {
+    return string.replace('\f', '\n');
+}

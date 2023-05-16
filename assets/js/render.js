@@ -1,12 +1,9 @@
-import { selectCardColor, pokemonRegion, capitalizeFirst } from "./function.js";
+import { selectCardColor, pokemonRegion, capitalizeFirst, changeNewLineText } from "./function.js";
 import { pokemonDescriptionAPI } from "./api.js";
-import { cardClick } from "./addEventListener.js";
-
 
 // renderizza il contenuto principale del modale con il dettaglio dei pokemon
- function renderModalMainContent(pokemon, pokemonDescription) {
+function renderModalMainContent(pokemon, pokemonDescription) {
   const pokemonName = capitalizeFirst(pokemon.forms[0].name);
-  console.log(pokemonName);
   const pokemonId = pokemon.id.toString().padStart(3, '0');
   const pokemonType = pokemon.types[0].type.name;
   const pokemonImgUrl = pokemon.sprites.front_default;
@@ -27,11 +24,11 @@ import { cardClick } from "./addEventListener.js";
   ${pokemonDescription}
   </div>
 </div>`;
-return elem;
- }
+  return elem;
+}
 
- // renderizza le stats del modale
- function renderModalStats(pokemon){
+// renderizza le stats del modale
+function renderModalStats(pokemon) {
   const hp = pokemon.stats[0].base_stat;
   const attack = pokemon.stats[1].base_stat;
   const defense = pokemon.stats[2].base_stat;
@@ -56,15 +53,25 @@ return elem;
 }
 
 // renderizza la descrizione del pokemon
- async function renderModalDescription(pokemonDescription){
-  console.log(pokemonDescription);
-  const elem = `${pokemonDescription.flavor_text_entries.length > 0 ? pokemonDescription.flavor_text_entries[17].flavor_text : 'No description available'}`;
-  return elem;
+async function renderModalDescription(pokemonDescription) {
+  // siccome le descrizioni delle api di pokeApi non sono ordinate per lingua, filtra e restituisce la prima descrizione in inglese
+  let hasDescription = false;
+  for (let i = 0; i < pokemonDescription.flavor_text_entries.length; i++) {
+    if (pokemonDescription.flavor_text_entries[i].language.name === 'en') {
+      hasDescription = true;
+      return changeNewLineText(pokemonDescription.flavor_text_entries[i].flavor_text);
+    }
+  }
+
+  // se non ci sono descrizioni o se non c'è in inglese restituisce
+  if (pokemonDescription.flavor_text_entries.length === 0 || !hasDescription) {
+    return 'No description available';
+  }
 }
 
 
 // renderizza i tipi del pokemon
- function renderModalTypes(pokemon){
+function renderModalTypes(pokemon) {
   const pokemonType1 = capitalizeFirst(pokemon.types[0].type.name);
   const pokemonType2 = pokemon.types[1] ? capitalizeFirst(pokemon.types[1].type.name) : '';
   const elem = `
@@ -115,6 +122,7 @@ export function renderHidePrevNextButton(pageOrGeneration, prevButton, nextButto
 
 // renderizza il modale e il suo stile, aggiunge addEventListener all'interno del modale per cambiare sezione da guardare o per la chiusura
 export async function renderModal(pokemon) {
+  let isOpen = false;
   const pokemonDescription = await renderModalDescription(await pokemonDescriptionAPI(pokemon));
   const pokemonModal = document.querySelector('#pokemon-detail-modal');
   pokemonModal.style.display = 'flex';
@@ -123,6 +131,19 @@ export async function renderModal(pokemon) {
   const closeModal = document.querySelector('#close-pokemon-detail');
   closeModal.addEventListener('click', () => {
     pokemonModal.style.display = 'none';
+  })
+
+  if (pokemonModal.style.display === 'none') {
+    isOpen = false;
+  } else {
+    isOpen = true;
+  }
+
+  window.addEventListener('popstate', (event) => {
+    event.preventDefault();
+    if (isOpen) {
+      pokemonModal.style.display = 'none';
+    }
   })
 
   const descriptionModal = document.querySelector('#description-modal');
@@ -143,17 +164,17 @@ export async function renderModal(pokemon) {
 }
 
 // renderizza l'input utente del pokemon cercato
-export function renderSearchedPokemonTitle(pokemon){
+export function renderSearchedPokemonTitle(pokemon) {
   return `<h2>Results for ${pokemon}</h2>`;
 }
 
 // renderizza l'insieme di carte che figurano nella ricerca utente
-export function renderCardsSearched(pokemonSearched){
+export function renderCardsSearched(pokemonSearched) {
   const cards = pokemonSearched.map(pokemon => renderCards(pokemon));
   return cards;
 }
 
 // renderizza il messaggio di errore in caso non si trovi il pokemon
-export function renderErroreMessage(){
+export function renderErroreMessage() {
   return '<div id=\'error-message\'>Sorry, this Pokemon doesn\'t exist or isn\'t in our database.</div>';
 }
