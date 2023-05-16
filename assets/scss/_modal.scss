@@ -1,5 +1,4 @@
-
-#pokemon-detail-modal{
+#pokemon-detail-modal {
   position: fixed;
   display: none;
   flex-direction: column;
@@ -16,7 +15,7 @@
   max-width: 300px;
 
 
-  #modal-content{
+  #modal-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,17 +25,18 @@
     max-width: 350px;
     position: relative;
 
-    h3{
+    h3 {
       margin-top: 0;
       font-size: 2.5rem;
     }
 
-    h4{
+    h4 {
       font-size: 1.2rem;
       font-weight: 300;
       margin-bottom: 5%;
     }
-    #close-pokemon-detail{
+
+    #close-pokemon-detail {
       position: absolute;
       top: -30px;
       left: -5px;
@@ -47,15 +47,16 @@
       cursor: pointer;
     }
 
-    picture{
+    picture {
       border-radius: 20px;
       width: 250px;
-      img{
+
+      img {
         width: 250px;
       }
     }
 
-    #type-of-detail{
+    #type-of-detail {
       display: flex;
       justify-content: space-between;
       text-decoration: none;
@@ -67,7 +68,8 @@
 
 
     }
-    #detail-content{
+
+    #detail-content {
       margin-top: 15px;
       display: flex;
       justify-content: center;
@@ -83,7 +85,7 @@
 
 }
 
-.item-modal{
+.item-modal {
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
@@ -101,48 +103,51 @@
   align-items: center;
 }
 
-.pokemon-stat{
+.pokemon-stat {
   padding-left: 20px;
   font-weight: 700;
   margin-top: 3px;
 }
 
-.pokemon-type{
+.pokemon-type {
   font-weight: 700;
   padding: 10px 20px;
   border-radius: 10px;
   margin: 10px;
 }
 
-@media screen and (min-width: 768px){
-  #pokemon-detail-modal{
+@media screen and (min-width: 768px) {
+  #pokemon-detail-modal {
     height: fit-content;
-    width: fit-content;
+    min-width: fit-content;
     padding: 60px 40px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 20px;
-   max-width: 400px;
-    #modal-content{
+    width: 400px;
+
+    #modal-content {
       height: 100%;
-      width: 100%;      #close-pokemon-detail{
+      width: 100%;
+
+
+      #close-pokemon-detail {
         top: -45px;
         left: -15px;
-        #close-pokemon-detail{
-          top: -45px;
-          left: -15px;
-          font-size: 30px;
-          padding: 0 40px 40px 0;
-          cursor: pointer;
+        font-size: 30px;
+        padding: 0 40px 40px 0;
+        cursor: pointer;
+      }
+
+      picture {
+        padding: 40px 30px;
+        width: 300px;
+        img {
+          min-width: 250px;
+          max-width: 300px;
         }
-        picture{
-          padding: 40px 30px;
-          img{
-            min-width: 250px;
-            max-width: 300px;
-          }
-        }
+
       }
     }
   }

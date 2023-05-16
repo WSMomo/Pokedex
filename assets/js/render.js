@@ -122,7 +122,6 @@ export function renderHidePrevNextButton(pageOrGeneration, prevButton, nextButto
 
 // renderizza il modale e il suo stile, aggiunge addEventListener all'interno del modale per cambiare sezione da guardare o per la chiusura
 export async function renderModal(pokemon) {
-  let isOpen = false;
   const pokemonDescription = await renderModalDescription(await pokemonDescriptionAPI(pokemon));
   const pokemonModal = document.querySelector('#pokemon-detail-modal');
   pokemonModal.style.display = 'flex';
@@ -137,22 +136,6 @@ export async function renderModal(pokemon) {
     if(event.key === 'Escape'){
       pokemonModal.style.display = 'none';
     }
-  })
-
-  if (pokemonModal.style.display === 'none') {
-    isOpen = false;
-  } else {
-    isOpen = true;
-  }
-
-  window.addEventListener('popstate', (event) => {
-    event.preventDefault();
-    if (isOpen) {
-      pokemonModal.style.display = 'none';
-    }
-
-    history.pushState(null, null, window.location.href);
-
   })
 
   const descriptionModal = document.querySelector('#description-modal');
