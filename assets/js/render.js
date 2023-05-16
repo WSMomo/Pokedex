@@ -133,6 +133,12 @@ export async function renderModal(pokemon) {
     pokemonModal.style.display = 'none';
   })
 
+  document.addEventListener('keydown', (event) => {
+    if(event.key === 'Escape'){
+      pokemonModal.style.display = 'none';
+    }
+  })
+
   if (pokemonModal.style.display === 'none') {
     isOpen = false;
   } else {
@@ -144,6 +150,9 @@ export async function renderModal(pokemon) {
     if (isOpen) {
       pokemonModal.style.display = 'none';
     }
+
+    history.pushState(null, null, window.location.href);
+
   })
 
   const descriptionModal = document.querySelector('#description-modal');
