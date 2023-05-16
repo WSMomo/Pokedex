@@ -6,7 +6,7 @@ By a input parameter you can search a Pokémon by name or by number.
 Clicking on a Pokémon opens a modal with information like the description, the types and the statistics.
 
 ## Try It
-[Visita il mio Pokédex](https://Pokédex-wsmomo.netlify.app/)
+[Live](https://pokedex-wsmomo.netlify.app/)
 
 
 ## Features
